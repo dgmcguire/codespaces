@@ -29,5 +29,10 @@ if [ -z "$( ls -A ~/lsp/elixir )" ]; then
   fi
 fi
 
-git clone "https://dgmcguire:$GITLAB_TOKEN@gitlab.com/dgmcguire/nixconfig.git" ~/nixconfig
-yes | cp -r ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/nvim
+if [ -z "$(ls -A ~/nixconfig)" ]; then
+  git pull
+  yes | cp -r ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/nvim
+else
+  git clone "https://dgmcguire:$GITLAB_TOKEN@gitlab.com/dgmcguire/nixconfig.git" ~/nixconfig
+  yes | cp -r ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/nvim
+fi

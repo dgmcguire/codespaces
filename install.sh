@@ -5,7 +5,8 @@ sudo apk add --no-cache \
 	gcc \
 	unzip \
 	make \
-	nerd-fonts 
+	nerd-fonts \
+	nodejs-current-21.7.3-r0
 
 mkdir -p ~/lsp/{lua,elixir}
 

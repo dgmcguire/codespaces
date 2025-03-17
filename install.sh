@@ -39,6 +39,8 @@ if [ -z "$(ls -A ~/nixconfig)" ]; then
   git clone "https://dgmcguire:$GITLAB_TOKEN@gitlab.com/dgmcguire/nixconfig.git" ~/nixconfig;
   yes | cp -r ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/nvim;
 else
+  echo "pulling nixconfig repo";
+  cd ~/nixconfig;
   git pull;
   yes | cp -r ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/nvim;
 fi

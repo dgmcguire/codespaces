@@ -38,10 +38,10 @@ fi
 if [ -z "$(ls -A ~/nixconfig)" ]; then
   echo "cloning nixconfig repo";
   git clone "https://dgmcguire:$GITLAB_TOKEN@gitlab.com/dgmcguire/nixconfig.git" ~/nixconfig;
-  cp -r ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/nvim;
+  cp -rf ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/nvim;
 else
   echo "pulling nixconfig repo";
   cd ~/nixconfig || exit;
   git pull;
-  cp -r ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/nvim;
+  cp -rf ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/nvim;
 fi

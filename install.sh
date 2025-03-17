@@ -20,4 +20,4 @@ if [ -z "$( ls -A ~/lsp/elixir )" ]; then
   rm elixir-ls-v0.27.1.zip
 fi
 
-git clone "git clone https://oauth2:$(GITLAB_TOKEN)@gitlab.com:dgmcguire/nixconfig.git"
+# git clone "https://dgmcguire:$GITLAB_TOKEN@gitlab.com/dgmcguire/nixconfig.git"

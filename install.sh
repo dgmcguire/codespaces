@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # nvim deps
-apk add --no-cache \
+sudo apk add --no-cache \
 	gcc \
 	unzip \
 	make \

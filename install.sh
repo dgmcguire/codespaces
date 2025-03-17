@@ -7,7 +7,7 @@ apk add --no-cache \
 	make \
 	nerd-fonts 
 
-mkdir ~/lsp/{lua,elixir}
+mkdir -p ~/lsp/{lua,elixir}
 
 if [ -z "$( ls -A '~/lsp/lua' )" ]; then
   wget https://github.com/LuaLS/lua-language-server/releases/download/3.13.9/lua-language-server-3.13.9-linux-x64-musl.tar.gz

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-apk install --no-cache \
+apk add --no-cache \
 	jq \
 	lua-language-server \
 	gcc \

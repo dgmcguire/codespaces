@@ -10,31 +10,35 @@ sudo apk add --no-cache \
 mkdir -p ~/lsp/{lua,elixir}
 
 if [ -z "$( ls -A ~/lsp/lua )" ]; then
-  wget https://github.com/LuaLS/lua-language-server/releases/download/3.13.9/lua-language-server-3.13.9-linux-x64-musl.tar.gz
-  tar -xzvf lua-language-server-3.13.9-linux-x64-musl.tar.gz -C ~/lsp/lua/
-  rm lua-language-server-3.13.9-linux-x64-musl.tar.gz 
-
+  wget https://github.com/LuaLS/lua-language-server/releases/download/3.13.9/lua-language-server-3.13.9-linux-x64-musl.tar.gz;
+  tar -xzvf lua-language-server-3.13.9-linux-x64-musl.tar.gz -C ~/lsp/lua/;
+  rm lua-language-server-3.13.9-linux-x64-musl.tar.gz;
 fi
 
-if [ ! $(grep "LUA_LSP" ~/.zshrc) ]; then
-  echo "export LUA_LSP='$HOME/lsp/lua/bin/lua-language-server'" >> ~/.zshrc
+if grep -q "LUA_LSP" ~/.zshrc; then
+  echo "LUA_LSP already in zshrc";
+else
+  echo "adding LUA_LSP to zshrc";
+  echo "export LUA_LSP='$HOME/lsp/lua/bin/lua-language-server'" >> ~/.zshrc;
 fi
 
 if [ -z "$( ls -A ~/lsp/elixir )" ]; then
-  wget https://github.com/elixir-lsp/elixir-ls/releases/download/v0.27.1/elixir-ls-v0.27.1.zip
-  unzip elixir-ls-v0.27.1.zip -d ~/lsp/elixir
-  rm elixir-ls-v0.27.1.zip
-
+  wget https://github.com/elixir-lsp/elixir-ls/releases/download/v0.27.1/elixir-ls-v0.27.1.zip;
+  unzip elixir-ls-v0.27.1.zip -d ~/lsp/elixir;
+  rm elixir-ls-v0.27.1.zip;
 fi
 
-if [ ! $(grep "ELIXIR_LSP" ~/.zshrc) ]; then
+if grep -q "ELIXIR_LSP" ~/.zshrc; then
+  echo "ELIXIR_LSP alreay in zshrc";
+else
+  echo "adding ELIXIR_LSP to zshrc";
   echo "export ELIXIR_LSP='$HOME/lsp/elixir/language_server.sh'" >> ~/.zshrc
 fi
 
 if [ -z "$(ls -A ~/nixconfig)" ]; then
-  git clone "https://dgmcguire:$GITLAB_TOKEN@gitlab.com/dgmcguire/nixconfig.git" ~/nixconfig
-  yes | cp -r ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/nvim
+  git clone "https://dgmcguire:$GITLAB_TOKEN@gitlab.com/dgmcguire/nixconfig.git" ~/nixconfig;
+  yes | cp -r ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/nvim;
 else
-  git pull
-  yes | cp -r ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/nvim
+  git pull;
+  yes | cp -r ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/nvim;
 fi

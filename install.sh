@@ -6,7 +6,8 @@ sudo apk add --no-cache \
 	unzip \
 	make \
 	nerd-fonts \
-	nodejs-current-21.7.3-r0
+	npm \
+	stylua
 
 mkdir -p ~/lsp/{lua,elixir}
 
@@ -21,6 +22,13 @@ if grep -q "LUA_LSP" ~/.zshrc; then
 else
   echo "adding LUA_LSP to zshrc";
   echo "export LUA_LSP='$HOME/lsp/lua/bin/lua-language-server'" >> ~/.zshrc;
+fi
+
+if grep -q "STYLUA_LINTER" ~/.zshrc; then
+  echo "STYLUA_LINTER already in zshrc";
+else
+  echo "adding STYLUA_LINTER to zshrc";
+  echo "export STYLUA_LINTER='/usr/bin/stylua'" >> ~/.zshrc;
 fi
 
 if [ -z "$( ls -A ~/lsp/elixir )" ]; then

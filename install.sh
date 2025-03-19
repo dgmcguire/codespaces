@@ -7,7 +7,9 @@ sudo apk add --no-cache \
 	make \
 	nerd-fonts \
 	npm \
-	stylua
+	stylua \
+	eza \
+	fzf
 
 mkdir -p ~/lsp/{lua,elixir}
 

@@ -8,6 +8,7 @@ zplug "romkatv/powerlevel10k", as:theme, depth:1
 zplug "zsh-users/zsh-autosuggestions", defer:2
 zplug "zsh-users/zsh-history-substring-search", defer:3
 zplug "dgmcguire/prezto-git-aliases"
+zplug "z-shell/zsh-eza"
 
 if ! zplug check; then
   zplug install
@@ -16,3 +17,4 @@ zplug load
 
 [[ ! -f "$HOME/scripts/p10k.zsh" ]] || source "$HOME/scripts/p10k.zsh"
 [[ ! -f "$HOME/scripts/zsh_functions_and_aliases.zsh" ]] || source "$HOME/scripts/zsh_functions_and_aliases.zsh"
+source <(fzf --zsh)

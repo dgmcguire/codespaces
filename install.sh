@@ -72,6 +72,7 @@ else
   cp -rf ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/nvim;
 fi
 
-cp -rf "$PWD/scripts" ~/scripts
+dotfiles_dir="/workspaces/.codespaces/.persistedshare/dotfiles"
+cp -rf "$dotfiles_dir/scripts" ~/scripts
 
 

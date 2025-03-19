@@ -11,10 +11,10 @@ sudo apk add --no-cache \
 	eza \
 	fzf
 
-mkdir -p ~/lsp/{lua,elixir}
 
 # install lua lsp
 if [ -z "$( ls -A ~/lsp/lua )" ]; then
+  mkdir -p ~/lsp/lua
   wget https://github.com/LuaLS/lua-language-server/releases/download/3.13.9/lua-language-server-3.13.9-linux-x64-musl.tar.gz;
   tar -xzvf lua-language-server-3.13.9-linux-x64-musl.tar.gz -C ~/lsp/lua/;
   rm lua-language-server-3.13.9-linux-x64-musl.tar.gz;

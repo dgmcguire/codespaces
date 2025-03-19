@@ -76,6 +76,7 @@ fi
 
 # install zplug
 if [ ! -d "$HOME/.zplug" ]; then
+  echo "installing zplug"
   curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 fi
 

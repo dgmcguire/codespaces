@@ -75,4 +75,5 @@ fi
 dotfiles_dir="/workspaces/.codespaces/.persistedshare/dotfiles"
 cp -rf "$dotfiles_dir/scripts" ~/scripts
 
-
+# install zplug
+curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh

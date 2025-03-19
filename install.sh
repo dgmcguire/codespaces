@@ -71,6 +71,7 @@ else
   cd ~/nixconfig || exit;
   git pull;
   rm -rf ~/.config/nvim
+  mkdir -p ~/.config/nvim
   cp -rf ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/nvim;
 fi
 

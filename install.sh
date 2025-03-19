@@ -80,5 +80,5 @@ if [ ! -d "$HOME/.zplug" ]; then
 fi
 
 dotfiles_dir="/workspaces/.codespaces/.persistedshare/dotfiles"
-cp -rf "$dotfiles_dir/scripts" ~/scripts
+cp -rf "$dotfiles_dir/scripts" ~/
 cp -f "$HOME/scripts/zshrc.zsh" ~/.zshrc

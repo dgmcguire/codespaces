@@ -11,25 +11,26 @@ sudo apk add --no-cache \
 
 mkdir -p ~/lsp/{lua,elixir}
 
+# install lua lsp
 if [ -z "$( ls -A ~/lsp/lua )" ]; then
   wget https://github.com/LuaLS/lua-language-server/releases/download/3.13.9/lua-language-server-3.13.9-linux-x64-musl.tar.gz;
   tar -xzvf lua-language-server-3.13.9-linux-x64-musl.tar.gz -C ~/lsp/lua/;
   rm lua-language-server-3.13.9-linux-x64-musl.tar.gz;
 fi
 
-append_to_zshrc() {
-  if grep -q "$1" ~/.zshrc; then
-    echo "EXISTS in zshrc: $1";
-  else
-    echo "ADDING to zshrc: $1";
-
-    echo "$1" >> ~/.zshrc
-    # echo "export LUA_LSP='$HOME/lsp/lua/bin/lua-language-server'" >> ~/.zshrc;
-  fi
-}
-
-append_to_zshrc "export LUA_LSP='$HOME/lsp/lua/bin/lua-language-server'"
-append_to_zshrc "export STYLUA_LINTER='/usr/bin/stylua'"
+# append_to_zshrc() {
+#   if grep -q "$1" ~/.zshrc; then
+#     echo "EXISTS in zshrc: $1";
+#   else
+#     echo "ADDING to zshrc: $1";
+#
+#     echo "$1" >> ~/.zshrc
+#     # echo "export LUA_LSP='$HOME/lsp/lua/bin/lua-language-server'" >> ~/.zshrc;
+#   fi
+# }
+#
+# append_to_zshrc "export LUA_LSP='$HOME/lsp/lua/bin/lua-language-server'"
+# append_to_zshrc "export STYLUA_LINTER='/usr/bin/stylua'"
 # append_to_zshrc "source ~/.config/
 
 # if grep -q "LUA_LSP" ~/.zshrc; then
@@ -59,6 +60,7 @@ append_to_zshrc "export STYLUA_LINTER='/usr/bin/stylua'"
 #   echo "export ELIXIR_LSP='$HOME/lsp/elixir/language_server.sh'" >> ~/.zshrc
 # fi
 
+# install nvim config from my personal nix config repo
 if [ -z "$(ls -A ~/nixconfig)" ]; then
   echo "cloning nixconfig repo";
   git clone "https://dgmcguire:$GITLAB_TOKEN@gitlab.com/dgmcguire/nixconfig.git" ~/nixconfig;
@@ -72,8 +74,11 @@ else
   cp -rf ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/nvim;
 fi
 
+# install zplug
+if [ ! -d "$HOME/.zplug" ]; then
+  curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+fi
+
 dotfiles_dir="/workspaces/.codespaces/.persistedshare/dotfiles"
 cp -rf "$dotfiles_dir/scripts" ~/scripts
-
-# install zplug
-curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+cp -f "$dotfiles_dir/.zshrc" ~/.zshrc

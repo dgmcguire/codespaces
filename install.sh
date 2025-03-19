@@ -72,6 +72,6 @@ else
   cp -rf ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/nvim;
 fi
 
-mv -f scripts ~/
+cp -rf scripts ~/scripts
 
 

@@ -81,4 +81,4 @@ fi
 
 dotfiles_dir="/workspaces/.codespaces/.persistedshare/dotfiles"
 cp -rf "$dotfiles_dir/scripts" ~/scripts
-cp -f "$dotfiles_dir/.zshrc" ~/.zshrc
+cp -f "$HOME/scripts/zshrc.zsh" ~/.zshrc

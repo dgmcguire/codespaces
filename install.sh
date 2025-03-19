@@ -17,32 +17,47 @@ if [ -z "$( ls -A ~/lsp/lua )" ]; then
   rm lua-language-server-3.13.9-linux-x64-musl.tar.gz;
 fi
 
-if grep -q "LUA_LSP" ~/.zshrc; then
-  echo "LUA_LSP already in zshrc";
-else
-  echo "adding LUA_LSP to zshrc";
-  echo "export LUA_LSP='$HOME/lsp/lua/bin/lua-language-server'" >> ~/.zshrc;
-fi
+append_to_zshrc() {
+  if grep -q "$1" ~/.zshrc; then
+    echo "EXISTS in zshrc: $1";
+  else
+    echo "ADDING to zshrc: $1";
 
-if grep -q "STYLUA_LINTER" ~/.zshrc; then
-  echo "STYLUA_LINTER already in zshrc";
-else
-  echo "adding STYLUA_LINTER to zshrc";
-  echo "export STYLUA_LINTER='/usr/bin/stylua'" >> ~/.zshrc;
-fi
+    echo "$1" >> ~/.zshrc
+    # echo "export LUA_LSP='$HOME/lsp/lua/bin/lua-language-server'" >> ~/.zshrc;
+  fi
+}
 
-if [ -z "$( ls -A ~/lsp/elixir )" ]; then
-  wget https://github.com/elixir-lsp/elixir-ls/releases/download/v0.27.1/elixir-ls-v0.27.1.zip;
-  unzip elixir-ls-v0.27.1.zip -d ~/lsp/elixir;
-  rm elixir-ls-v0.27.1.zip;
-fi
+append_to_zshrc "export LUA_LSP='$HOME/lsp/lua/bin/lua-language-server'"
+append_to_zshrc "export STYLUA_LINTER='/usr/bin/stylua'"
+# append_to_zshrc "source ~/.config/
 
-if grep -q "ELIXIR_LSP" ~/.zshrc; then
-  echo "ELIXIR_LSP alreay in zshrc";
-else
-  echo "adding ELIXIR_LSP to zshrc";
-  echo "export ELIXIR_LSP='$HOME/lsp/elixir/language_server.sh'" >> ~/.zshrc
-fi
+# if grep -q "LUA_LSP" ~/.zshrc; then
+#   echo "LUA_LSP already in zshrc";
+# else
+#   echo "adding LUA_LSP to zshrc";
+#   echo  >> ~/.zshrc;
+# fi
+
+# if grep -q "STYLUA_LINTER" ~/.zshrc; then
+#   echo "STYLUA_LINTER already in zshrc";
+# else
+#   echo "adding STYLUA_LINTER to zshrc";
+#   echo "export STYLUA_LINTER='/usr/bin/stylua'" >> ~/.zshrc;
+# fi
+
+# if [ -z "$( ls -A ~/lsp/elixir )" ]; then
+#   wget https://github.com/elixir-lsp/elixir-ls/releases/download/v0.27.1/elixir-ls-v0.27.1.zip;
+#   unzip elixir-ls-v0.27.1.zip -d ~/lsp/elixir;
+#   rm elixir-ls-v0.27.1.zip;
+# fi
+#
+# if grep -q "ELIXIR_LSP" ~/.zshrc; then
+#   echo "ELIXIR_LSP alreay in zshrc";
+# else
+#   echo "adding ELIXIR_LSP to zshrc";
+#   echo "export ELIXIR_LSP='$HOME/lsp/elixir/language_server.sh'" >> ~/.zshrc
+# fi
 
 if [ -z "$(ls -A ~/nixconfig)" ]; then
   echo "cloning nixconfig repo";
@@ -56,3 +71,7 @@ else
   rm -rf ~/.config/nvim
   cp -rf ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/nvim;
 fi
+
+mv -rf ./scripts/ ~/scripts
+
+

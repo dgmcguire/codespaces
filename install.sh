@@ -21,12 +21,15 @@ if [ -z "$( ls -A ~/lsp/lua )" ]; then
   rm lua-language-server-3.13.9-linux-x64-musl.tar.gz;
 fi
 
-# install tpm tmux plugin manager
+# install tpm tmux plugin manager and weird install for catpuccin plugin
 if [ -f "$HOME/.tmux/plugins/tpm/scripts/install_plugins.sh" ]; then
   echo "tpm already installed"
 else
   echo "installing tpm"
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+  # install catpuccin plugin
+  git clone -b v2.1.2 https://github.com/catppuccin/tmux.git ~/.config/tmux/plugins/catppuccin/tmux
   # start a server but don't attach to it
   tmux start-server
   # create a new session but don't attach to it either

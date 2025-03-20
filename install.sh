@@ -50,6 +50,7 @@ else
   cd ~/nixconfig || exit;
   git pull;
   rm -rf ~/.config/nvim
+  rm ~/.tmux.conf
   cp -rf ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/;
   cp -f ~/nixconfig/hosts/yoga-nix/home/tmux.conf ~/.tmux.conf;
 fi

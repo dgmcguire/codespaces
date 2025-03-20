@@ -9,8 +9,9 @@ sudo apk add --no-cache \
 	npm \
 	stylua \
 	eza \
-	fzf
-
+	fzf \
+	xclip \
+	tmux
 
 # install lua lsp
 if [ -z "$( ls -A ~/lsp/lua )" ]; then
@@ -20,18 +21,29 @@ if [ -z "$( ls -A ~/lsp/lua )" ]; then
   rm lua-language-server-3.13.9-linux-x64-musl.tar.gz;
 fi
 
-# install nvim config from my personal nix config repo
+# install tpm tmux plugin manager
+if [ -d "$HOME/.tmux/plugins/tpm" ]; then
+  echo "tpm already installed"
+else
+  echo "installing tpm"
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
+# install nvim and tmux config from my personal nix config repo
 if [ -z "$(ls -A ~/nixconfig)" ]; then
   echo "cloning nixconfig repo";
   git clone "https://dgmcguire:$GITLAB_TOKEN@gitlab.com/dgmcguire/nixconfig.git" ~/nixconfig;
   rm -rf ~/.config/nvim
+  rm ~/.tmux.conf
   cp -rf ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/nvim;
+  cp -f ~/nixconfig/hosts/yoga-nix/home/tmux.conf ~/.tmux.conf;
 else
   echo "pulling nixconfig repo";
   cd ~/nixconfig || exit;
   git pull;
   rm -rf ~/.config/nvim
   cp -rf ~/nixconfig/hosts/yoga-nix/home/nvim ~/.config/;
+  cp -f ~/nixconfig/hosts/yoga-nix/home/tmux.conf ~/.tmux.conf;
 fi
 
 # install zplug

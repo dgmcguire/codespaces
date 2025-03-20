@@ -22,11 +22,19 @@ if [ -z "$( ls -A ~/lsp/lua )" ]; then
 fi
 
 # install tpm tmux plugin manager
-if [ -d "$HOME/.tmux/plugins/tpm" ]; then
+if [ -f "$HOME/.tmux/plugins/tpm/scripts/install_plugins.sh" ]; then
   echo "tpm already installed"
 else
   echo "installing tpm"
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+  # start a server but don't attach to it
+  tmux start-server
+  # create a new session but don't attach to it either
+  tmux new-session -d
+  # install the plugins
+  "$HOME/.tmux/plugins/tpm/scripts/install_plugins.sh"
+  # killing the server is not really required
+  tmux kill-server
 fi
 
 # install nvim and tmux config from my personal nix config repo
@@ -58,3 +66,10 @@ cp -rf "$dotfiles_dir/scripts" ~/
 cp -f "$dotfiles_dir/zshrc.zsh" ~/.zshrc
 # make sure this exists to prevent an annoying debug message on ssh
 touch ~/.profile
+
+# finally source zshrc for convenience when I'm running this manually
+if [ ! -f "$HOME/.zshrc" ]; then
+  #shellcheck disable=1091
+  #disable file not found, which is fine since I expect this on codespaces, not locally
+  source "$HOME/.zshrc"
+fi

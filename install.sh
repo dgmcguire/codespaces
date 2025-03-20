@@ -56,3 +56,5 @@ fi
 dotfiles_dir="/workspaces/.codespaces/.persistedshare/dotfiles"
 cp -rf "$dotfiles_dir/scripts" ~/
 cp -f "$dotfiles_dir/zshrc.zsh" ~/.zshrc
+# make sure this exists to prevent an annoying debug message on ssh
+touch ~/.profile

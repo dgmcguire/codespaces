@@ -5,9 +5,7 @@ alias tl="tmux -u list-sessions";
 function csinstall() {
   if [ -f  "/workspaces/.codespaces/.persistedshare/dotfiles/scripts/install.sh" ]; then
     echo "installing dotfiles"
-    cd /workspaces/.codespaces/.persistedshare/dotfiles
-    git pull
-    ./install.sh
+    $(cd /workspaces/.codespaces/.persistedshare/dotfiles; git pull; ./install.sh)
   else
     echo "dotfiles not found"
   fi

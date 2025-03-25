@@ -11,7 +11,8 @@ sudo apk add --no-cache \
 	eza \
 	fzf \
 	xclip \
-	tmux
+	tmux \
+	postgresql-client
 
 # install lua lsp
 if [ -z "$( ls -A ~/lsp/lua )" ]; then

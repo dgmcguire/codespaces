@@ -64,6 +64,8 @@ fi
 
 # move some config and scripts into place
 dotfiles_dir="/workspaces/.codespaces/.persistedshare/dotfiles"
+cd $dotfiles_dir || exit;
+git pull;
 cp -rf "$dotfiles_dir/scripts" ~/
 cp -f "$dotfiles_dir/zshrc.zsh" ~/.zshrc
 # make sure this exists to prevent an annoying debug message on ssh

@@ -9,7 +9,7 @@ zplug "zsh-users/zsh-autosuggestions", defer:2
 zplug "zsh-users/zsh-history-substring-search", defer:3
 zplug "dgmcguire/prezto-git-aliases"
 zplug "z-shell/zsh-eza"
-zplug "carapace-sh/carapace-bin"
+zplug "docker/compose", use:contrib/completion/zsh
 
 if ! zplug check; then
   zplug install

@@ -18,7 +18,7 @@ keepalive() {
       current_hour=$(date +%H)
       
       if [ "$current_hour" -ge 8 ] && [ "$current_hour" -lt 17 ]; then
-	echo "Keeping codespace alive at $(date)" >> ~/keep_alive.log
+	echo "Keeping codespace alive at $(date)" > ~/keep_alive.log
       fi
       
       sleep 900

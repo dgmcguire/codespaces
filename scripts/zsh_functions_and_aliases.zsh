@@ -15,9 +15,22 @@ function csinstall() {
 keepalive() {
   while true; do
       # Get current hour in 24-hour format
-      current_hour=$(date +%H)
+      current_hour=$(TZ=America/Chicago date +%H)
       
-      if [ "$current_hour" -ge 8 ] && [ "$current_hour" -lt 17 ]; then
+      if [ "$current_hour" -ge 5 ] && [ "$current_hour" -lt 17 ]; then
+	echo "Keeping codespace alive at $(date)" >> ~/keep_alive.log
+      fi
+      
+      sleep 900
+  done
+}
+
+keepalivelate() {
+  while true; do
+      # Get current hour in 24-hour format
+      current_hour=$(TZ=America/Chicago date +%H)
+      
+      if [ "$current_hour" -ge 5 ] && [ "$current_hour" -lt 24 ]; then
 	echo "Keeping codespace alive at $(date)" >> ~/keep_alive.log
       fi
       

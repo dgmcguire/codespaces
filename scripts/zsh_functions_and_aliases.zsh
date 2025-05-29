@@ -18,7 +18,7 @@ keepalive() {
       current_hour=$(TZ=America/Chicago date +%H)
       
       if [ "$current_hour" -ge 5 ] && [ "$current_hour" -lt 17 ]; then
-	echo "Keeping codespace alive at $(date)" >> ~/keep_alive.log
+	echo "Keeping codespace alive at $(TZ=America/Chicago date)" >> ~/keep_alive.log
       fi
       
       sleep 900
@@ -31,7 +31,7 @@ keepalivelate() {
       current_hour=$(TZ=America/Chicago date +%H)
       
       if [ "$current_hour" -ge 5 ] && [ "$current_hour" -lt 24 ]; then
-	echo "Keeping codespace alive at $(date)" >> ~/keep_alive.log
+	echo "Keeping codespace alive at $(TZ=America/Chicago date)" >> ~/keep_alive.log
       fi
       
       sleep 900

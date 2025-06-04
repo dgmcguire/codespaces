@@ -1,0 +1,18 @@
+[user]
+  name = Dan McGuire
+  email = dan.mcguire@jpcycles.com
+
+[core]
+    editor = nvim # Set your preferred editor (e.g., nano, code, etc.)
+    autocrlf = input # Handle line endings (use 'true' for Windows, 'input' for Linux/macOS)
+
+[pull]
+    ff = only # Fast-forward merge if possible, otherwise fail
+    default = merge # Ensure `git pull` performs a merge (creates a merge commit)
+
+[merge]
+    tool = vimdiff # Set default merge tool (optional, replace with your preferred tool)
+    conflictstyle = diff3 # Show conflicts with original, local, and remote changes
+
+[init]
+    defaultBranch = main # Set default branch name for new repositories

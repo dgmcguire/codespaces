@@ -16,3 +16,9 @@
 
 [init]
     defaultBranch = main # Set default branch name for new repositories
+
+[push]
+    autoSetupRemote = true
+
+[diff "sopsdiffer"]
+	textconv = sops -d --config /dev/null

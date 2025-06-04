@@ -7,7 +7,7 @@
     autocrlf = input # Handle line endings (use 'true' for Windows, 'input' for Linux/macOS)
 
 [pull]
-    ff = only # Fast-forward merge if possible, otherwise fail
+    ff = false
     default = merge # Ensure `git pull` performs a merge (creates a merge commit)
 
 [merge]

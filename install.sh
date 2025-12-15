@@ -13,7 +13,9 @@ sudo apk add --no-cache \
 	xclip \
 	tmux \
 	postgresql-client \
-	neovim
+	neovim \
+	npm
+
 
 # install lua lsp
 if [ -z "$( ls -A ~/lsp/lua )" ]; then
@@ -78,3 +80,10 @@ if [ ! -f "$HOME/.zshrc" ]; then
   #disable file not found, which is fine since I expect this on codespaces, not locally
   source "$HOME/.zshrc"
 fi
+
+# config npm and install auggie after zsh source
+export NPM_GLOBAL="$HOME/.npm-global"
+export PATH="$NPM_GLOBAL/bin:$PATH"
+mkdir -p "$HOME/.npm-global"
+npm config set prefix "$NPM_GLOBAL"
+npm install -g @augmentcode/auggie

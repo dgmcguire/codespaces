@@ -12,7 +12,8 @@ sudo apk add --no-cache \
 	fzf \
 	xclip \
 	tmux \
-	postgresql-client
+	postgresql-client \
+	neovim
 
 # install lua lsp
 if [ -z "$( ls -A ~/lsp/lua )" ]; then

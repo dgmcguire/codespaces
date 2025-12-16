@@ -87,3 +87,4 @@ export PATH="$NPM_GLOBAL/bin:$PATH"
 mkdir -p "$HOME/.npm-global"
 npm config set prefix "$NPM_GLOBAL"
 npm install -g @augmentcode/auggie
+npm install -g @pchuri/jira-cli

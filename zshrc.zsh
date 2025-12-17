@@ -1,6 +1,6 @@
 export LUA_LSP="$HOME/lsp/lua/bin/lua-language-server"
 export STYLUA_LINTER='/usr/bin/stylua'
-export ZPLUG_HOME='~/.zplug'
+export ZPLUG_HOME="$HOME/.zplug"
 export NPM_GLOBAL="$HOME/.npm-global"
 export PATH="$NPM_GLOBAL/bin:$PATH"
 

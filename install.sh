@@ -1,6 +1,6 @@
 #!/bin/bash
-
 # install deps
+sudo apk update
 sudo apk add --no-cache \
 	gcc \
 	unzip \
@@ -13,9 +13,10 @@ sudo apk add --no-cache \
 	xclip \
 	tmux \
 	postgresql-client \
-	neovim \
 	npm
 
+sudo apk add --upgrade --repository=https://dl-cdn.alpinelinux.org/alpine/edge/main libuv
+sudo apk add --upgrade --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community neovim
 
 # install lua lsp
 if [ -z "$( ls -A ~/lsp/lua )" ]; then
@@ -24,6 +25,19 @@ if [ -z "$( ls -A ~/lsp/lua )" ]; then
   tar -xzvf lua-language-server-3.13.9-linux-x64-musl.tar.gz -C ~/lsp/lua/;
   rm lua-language-server-3.13.9-linux-x64-musl.tar.gz;
 fi
+
+# install cloud-sql-proxy
+   if command -v cloud-sql-proxy &> /dev/null; then
+       echo "cloud-sql-proxy is already installed at: $(which cloud-sql-proxy)"
+       cloud-sql-proxy --version
+   else
+       echo "cloud-sql-proxy not found, installing..."
+       wget https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.20.0/cloud-sql-proxy.linux.amd64 -O /tmp/cloud-sql-proxy
+       chmod +x /tmp/cloud-sql-proxy
+       sudo mv /tmp/cloud-sql-proxy /usr/local/bin/cloud-sql-proxy
+       echo "Installation complete!"
+       cloud-sql-proxy --version
+   fi
 
 # install tpm tmux plugin manager
 if [ -f "$HOME/.tmux/plugins/tpm/scripts/install_plugins.sh" ]; then

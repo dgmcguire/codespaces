@@ -1,6 +1,0 @@
-dgmcguire/prezto-git-aliases
-docker/compose, use:contrib/completion/zsh
-romkatv/powerlevel10k, as:theme depth:1
-z-shell/zsh-eza
-zsh-users/zsh-autosuggestions, defer:2
-zsh-users/zsh-history-substring-search, defer:3

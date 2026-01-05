@@ -6,17 +6,20 @@ sudo apk add --no-cache \
 	unzip \
 	make \
 	nerd-fonts \
-	npm \
 	stylua \
 	eza \
 	fzf \
 	xclip \
 	tmux \
 	postgresql-client \
+	gzip \
+	tree-sitter-cli \
 	npm
 
 sudo apk add --upgrade --repository=https://dl-cdn.alpinelinux.org/alpine/edge/main libuv
 sudo apk add --upgrade --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community neovim
+sudo apk add --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing openfortivpn
+sudo apk add age
 
 # install lua lsp
 if [ -z "$( ls -A ~/lsp/lua )" ]; then
@@ -88,6 +91,36 @@ cp -f "$dotfiles_dir/zshrc.zsh" ~/.zshrc
 # make sure this exists to prevent an annoying debug message on ssh
 touch ~/.profile
 
+# setup openfortivpn config
+mkdir -p ~/.config
+mkdir -p ~/.config/agenix
+
+# Check if we need to decrypt the master key
+if [ ! -f "$HOME/.config/agenix/master.key" ]; then
+  if [ -f "$HOME/nixconfig/hosts/yoga-windows/home/secrets/master.key.age" ]; then
+    echo "Decrypting master key (password required)..."
+    age --decrypt --output "$HOME/.config/agenix/master.key" "$HOME/nixconfig/hosts/yoga-windows/home/secrets/master.key.age"
+    if [ $? -ne 0 ]; then
+      echo "Error: Failed to decrypt master key"
+      exit 1
+    fi
+    chmod 600 "$HOME/.config/agenix/master.key"
+  else
+    echo "Warning: master.key.age not found in nixconfig repo"
+  fi
+else
+  echo "Master key already decrypted at ~/.config/agenix/master.key"
+fi
+
+# Decrypt openfortivpn config using the master key
+if [ -f "$HOME/.config/agenix/master.key" ] && [ -f "$HOME/nixconfig/hosts/yoga-windows/home/secrets/openfortivpn.age" ]; then
+  echo "Setting up openfortivpn config from yoga-windows (encrypted)"
+  age --decrypt -i "$HOME/.config/agenix/master.key" "$HOME/nixconfig/hosts/yoga-windows/home/secrets/openfortivpn.age" > ~/.config/openfortivpn.config
+  chmod 600 "$HOME/.config/openfortivpn.config"
+else
+  echo "Warning: Could not decrypt openfortivpn config - master key or config file not found"
+fi
+
 # finally source zshrc for convenience when I'm running this manually
 if [ ! -f "$HOME/.zshrc" ]; then
   #shellcheck disable=1091
@@ -102,3 +135,4 @@ mkdir -p "$HOME/.npm-global"
 npm config set prefix "$NPM_GLOBAL"
 npm install -g @augmentcode/auggie
 npm install -g @pchuri/jira-cli
+npm install -g confluence-cli

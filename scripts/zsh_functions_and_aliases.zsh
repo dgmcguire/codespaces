@@ -1,6 +1,7 @@
 alias dockerpsf='docker ps --format "table {{.Names}}	{{.Status}}	{{.Ports}}"'
 alias ta="tmux new-session -A -s";
 alias tl="tmux -u list-sessions";
+alias openforti="sudo openfortivpn -c ~/.config/openfortivpn.config";
 
 function csinstall() {
   if [ -f "/workspaces/.codespaces/.persistedshare/dotfiles/install.sh" ]; then
@@ -36,4 +37,10 @@ keepalivelate() {
       
       sleep 900
   done
+}
+
+function auggie() {
+   # Run auggie with clean terminal handling
+   POWERLEVEL9K_INSTANT_PROMPT=off \
+   command auggie "$@"
 }

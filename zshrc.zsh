@@ -18,6 +18,9 @@ if ! zplug check; then
 fi
 zplug load
 
+# Initialize SSH agent
+[[ ! -f "$HOME/scripts/ssh_agent_init.zsh" ]] || source "$HOME/scripts/ssh_agent_init.zsh"
+
 [[ ! -f "$HOME/scripts/p10k.zsh" ]] || source "$HOME/scripts/p10k.zsh"
 [[ ! -f "$HOME/scripts/zsh_functions_and_aliases.zsh" ]] || source "$HOME/scripts/zsh_functions_and_aliases.zsh"
 source <(fzf --zsh)

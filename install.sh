@@ -123,6 +123,27 @@ else
   echo "Warning: Could not decrypt openfortivpn config - master key or config file not found"
 fi
 
+# Decrypt SSH private key from yoga-nix; ssh_agent_init.zsh expects it at ~/.ssh/tuelz-nixos
+mkdir -p "$HOME/.ssh"
+chmod 700 "$HOME/.ssh"
+if [ -f "$HOME/.ssh/tuelz-nixos" ]; then
+  echo "SSH private key already decrypted at ~/.ssh/tuelz-nixos"
+elif [ -f "$HOME/.config/agenix/master.key" ] && [ -f "$HOME/nixconfig/hosts/yoga-nix/home/secrets/ssh-private.age" ]; then
+  echo "Decrypting SSH private key from yoga-nix"
+  age --decrypt -i "$HOME/.config/agenix/master.key" "$HOME/nixconfig/hosts/yoga-nix/home/secrets/ssh-private.age" > "$HOME/.ssh/tuelz-nixos"
+  chmod 600 "$HOME/.ssh/tuelz-nixos"
+  cp -f "$HOME/nixconfig/hosts/yoga-nix/home/secrets/ssh-public.key" "$HOME/.ssh/tuelz-nixos.pub"
+  chmod 644 "$HOME/.ssh/tuelz-nixos.pub"
+else
+  echo "Warning: Could not decrypt SSH private key - master key or encrypted key not found"
+fi
+
+# Trust github.com host keys so ssh/git push works non-interactively
+if ! ssh-keygen -F github.com >/dev/null 2>&1; then
+  echo "Adding github.com to ~/.ssh/known_hosts"
+  ssh-keyscan -t rsa,ecdsa,ed25519 github.com >> "$HOME/.ssh/known_hosts" 2>/dev/null
+fi
+
 # connect to tailnet via OAuth client secret (ephemeral, pre-approved)
 if [ -n "$TAILSCALE_AUTHKEY" ]; then
   sudo mkdir -p /var/lib/tailscale

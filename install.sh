@@ -14,12 +14,14 @@ sudo apk add --no-cache \
 	postgresql-client \
 	gzip \
 	tree-sitter-cli \
-	npm
+	npm \
+	mosh
 
 sudo apk add --upgrade --repository=https://dl-cdn.alpinelinux.org/alpine/edge/main libuv
 sudo apk add --upgrade --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community neovim
 sudo apk add --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing openfortivpn
 sudo apk add age
+sudo apk add tailscale
 
 # install lua lsp
 if [ -z "$( ls -A ~/lsp/lua )" ]; then
@@ -121,6 +123,26 @@ else
   echo "Warning: Could not decrypt openfortivpn config - master key or config file not found"
 fi
 
+# connect to tailnet via OAuth client secret (ephemeral, pre-approved)
+if [ -n "$TAILSCALE_AUTHKEY" ]; then
+  sudo mkdir -p /var/lib/tailscale
+  if ! pgrep -x tailscaled > /dev/null; then
+    # kernel/TUN mode so UDP (mosh 60000-61000) is reachable on the tailnet IP
+    sudo tailscaled \
+      --state=/var/lib/tailscale/tailscaled.state > /tmp/tailscaled.log 2>&1 &
+    # give the daemon a moment to come up before `tailscale up`
+    sleep 2
+  fi
+  sudo tailscale up \
+    --authkey="${TAILSCALE_AUTHKEY}?ephemeral=true&preauthorized=true" \
+    --advertise-tags=tag:codespace \
+    --hostname="codespace-${CODESPACE_NAME:-$(hostname)}" \
+    --ssh \
+    --accept-routes
+else
+  echo "TAILSCALE_AUTHKEY not set — skipping tailscale setup"
+fi
+
 # finally source zshrc for convenience when I'm running this manually
 if [ ! -f "$HOME/.zshrc" ]; then
   #shellcheck disable=1091
@@ -136,3 +158,18 @@ npm config set prefix "$NPM_GLOBAL"
 npm install -g @augmentcode/auggie
 npm install -g @pchuri/jira-cli
 npm install -g confluence-cli
+
+# Docker MCP server (PyPI: mcp-server-docker, https://github.com/ckreiling/mcp-server-docker)
+# Cursor: add MCP server with command "mcp-server-docker" (needs Docker socket / DOCKER_HOST).
+export PATH="$HOME/.local/bin:$PATH"
+if ! command -v uv &> /dev/null; then
+	echo "installing uv (required for mcp-server-docker)..."
+	curl -LsSf https://astral.sh/uv/install.sh | sh
+	export PATH="$HOME/.local/bin:$PATH"
+fi
+if command -v mcp-server-docker &> /dev/null; then
+	echo "mcp-server-docker already installed at: $(command -v mcp-server-docker)"
+else
+	echo "installing mcp-server-docker..."
+	uv tool install mcp-server-docker
+fi

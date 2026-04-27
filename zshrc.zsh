@@ -2,7 +2,7 @@ export LUA_LSP="$HOME/lsp/lua/bin/lua-language-server"
 export STYLUA_LINTER='/usr/bin/stylua'
 export ZPLUG_HOME="$HOME/.zplug"
 export NPM_GLOBAL="$HOME/.npm-global"
-export PATH="$NPM_GLOBAL/bin:$PATH"
+export PATH="$HOME/.local/bin:$NPM_GLOBAL/bin:$PATH"
 
 [[ ! -f "$HOME/.zplug/init.zsh" ]] || source "$HOME/.zplug/init.zsh"
 
@@ -42,3 +42,18 @@ setopt HIST_IGNORE_SPACE
 unsetopt HIST_EXPIRE_DUPS_FIRST
 setopt SHARE_HISTORY
 unsetopt EXTENDED_HISTORY
+
+# --- Jira CLI (@pchuri/jira-cli) ---
+# Uses JIRA_API_TOKEN (set in Codespaces secrets). JIRA_HOST derived from JIRA_SERVER if unset.
+if [[ -n "$JIRA_SERVER" && -z "$JIRA_HOST" ]]; then
+  export JIRA_HOST="${JIRA_SERVER#https://}"
+  export JIRA_HOST="${JIRA_HOST#http://}"
+  export JIRA_HOST="${JIRA_HOST%%/*}"
+fi
+
+# --- Confluence CLI (confluence-cli) ---
+# Same Atlassian token as Jira. Set CONFLUENCE_EMAIL in Codespaces secrets (your Atlassian email).
+export CONFLUENCE_DOMAIN="${CONFLUENCE_DOMAIN:-revzilla.atlassian.net}"
+export CONFLUENCE_API_PATH="${CONFLUENCE_API_PATH:-/wiki/rest/api}"
+export CONFLUENCE_AUTH_TYPE="${CONFLUENCE_AUTH_TYPE:-basic}"
+[[ -n "$JIRA_API_TOKEN" ]] && export CONFLUENCE_API_TOKEN="${CONFLUENCE_API_TOKEN:-$JIRA_API_TOKEN}"

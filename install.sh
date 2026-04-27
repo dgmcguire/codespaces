@@ -144,24 +144,11 @@ if ! ssh-keygen -F github.com >/dev/null 2>&1; then
   ssh-keyscan -t rsa,ecdsa,ed25519 github.com >> "$HOME/.ssh/known_hosts" 2>/dev/null
 fi
 
-# connect to tailnet via OAuth client secret (ephemeral, pre-approved)
-if [ -n "$TAILSCALE_AUTHKEY" ]; then
-  sudo mkdir -p /var/lib/tailscale
-  if ! pgrep -x tailscaled > /dev/null; then
-    # kernel/TUN mode so UDP (mosh 60000-61000) is reachable on the tailnet IP
-    sudo tailscaled \
-      --state=/var/lib/tailscale/tailscaled.state > /tmp/tailscaled.log 2>&1 &
-    # give the daemon a moment to come up before `tailscale up`
-    sleep 2
-  fi
-  sudo tailscale up \
-    --authkey="${TAILSCALE_AUTHKEY}?ephemeral=true&preauthorized=true" \
-    --advertise-tags=tag:codespace \
-    --hostname="codespace-${CODESPACE_NAME:-$(hostname)}" \
-    --ssh \
-    --accept-routes
+# connect to tailnet (delegated to ~/scripts/tailscale_up.zsh, also sourced by .zshrc)
+if [ -x "$HOME/scripts/tailscale_up.zsh" ]; then
+  "$HOME/scripts/tailscale_up.zsh"
 else
-  echo "TAILSCALE_AUTHKEY not set — skipping tailscale setup"
+  echo "Warning: ~/scripts/tailscale_up.zsh missing — tailscale not started"
 fi
 
 # finally source zshrc for convenience when I'm running this manually

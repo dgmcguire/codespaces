@@ -21,6 +21,9 @@ zplug load
 # Initialize SSH agent
 [[ ! -f "$HOME/scripts/ssh_agent_init.zsh" ]] || source "$HOME/scripts/ssh_agent_init.zsh"
 
+# Ensure tailnet is up (no-op if already connected)
+[[ ! -f "$HOME/scripts/tailscale_up.zsh" ]] || source "$HOME/scripts/tailscale_up.zsh"
+
 [[ ! -f "$HOME/scripts/p10k.zsh" ]] || source "$HOME/scripts/p10k.zsh"
 [[ ! -f "$HOME/scripts/zsh_functions_and_aliases.zsh" ]] || source "$HOME/scripts/zsh_functions_and_aliases.zsh"
 source <(fzf --zsh)

@@ -4,6 +4,9 @@ export ZPLUG_HOME="$HOME/.zplug"
 export NPM_GLOBAL="$HOME/.npm-global"
 export PATH="$HOME/.local/bin:$NPM_GLOBAL/bin:$PATH"
 
+# Claude Code on Alpine/musl: use system ripgrep instead of the bundled (glibc) one.
+export USE_BUILTIN_RIPGREP=0
+
 [[ ! -f "$HOME/.zplug/init.zsh" ]] || source "$HOME/.zplug/init.zsh"
 
 zplug "romkatv/powerlevel10k", as:theme, depth:1

@@ -15,7 +15,10 @@ sudo apk add --no-cache \
 	gzip \
 	tree-sitter-cli \
 	npm \
-	mosh
+	mosh \
+	ripgrep \
+	libgcc \
+	libstdc++
 
 sudo apk add --upgrade --repository=https://dl-cdn.alpinelinux.org/alpine/edge/main libuv
 sudo apk add --upgrade --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community neovim
@@ -166,6 +169,26 @@ npm config set prefix "$NPM_GLOBAL"
 npm install -g @augmentcode/auggie
 npm install -g @pchuri/jira-cli
 npm install -g confluence-cli
+# Claude Code CLI. Installed via npm (Node 22+) to match the rest of this repo's
+# global-install pattern; the package ships a native binary so Node isn't needed
+# at runtime. On Alpine/musl this needs the ripgrep/libgcc/libstdc++ apk packages
+# above plus USE_BUILTIN_RIPGREP=0 (exported in zshrc.zsh) so it uses system rg.
+npm install -g @anthropic-ai/claude-code
+
+# Claude Code auth (non-interactive): authentication comes from an env var that
+# Codespaces injects from a Codespaces secret — we never store a token in git.
+#   - Subscription (Pro/Max/Team/Enterprise): set CLAUDE_CODE_OAUTH_TOKEN.
+#     Generate the 1-year token once locally with `claude setup-token`, then add
+#     it as a Codespaces secret named CLAUDE_CODE_OAUTH_TOKEN.
+#   - API billing instead: set ANTHROPIC_API_KEY as a Codespaces secret.
+#     (ANTHROPIC_API_KEY takes precedence over CLAUDE_CODE_OAUTH_TOKEN if both set.)
+# Either way Claude Code starts authenticated with no login prompt.
+if [ -z "$CLAUDE_CODE_OAUTH_TOKEN" ] && [ -z "$ANTHROPIC_API_KEY" ]; then
+	echo "Warning: neither CLAUDE_CODE_OAUTH_TOKEN nor ANTHROPIC_API_KEY is set —"
+	echo "         Claude Code will require an interactive login. Add one as a"
+	echo "         Codespaces secret to auto-authenticate. Run 'claude setup-token'"
+	echo "         locally to mint CLAUDE_CODE_OAUTH_TOKEN."
+fi
 
 # Docker MCP server (PyPI: mcp-server-docker, https://github.com/ckreiling/mcp-server-docker)
 # Cursor: add MCP server with command "mcp-server-docker" (needs Docker socket / DOCKER_HOST).

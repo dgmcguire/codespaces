@@ -27,6 +27,10 @@ zplug load
 # Ensure tailnet is up (no-op if already connected)
 [[ ! -f "$HOME/scripts/tailscale_up.zsh" ]] || source "$HOME/scripts/tailscale_up.zsh"
 
+# Seed Claude Code TUI auth from CLAUDE_CODE_OAUTH_TOKEN (no-op if already set up
+# or the token isn't present). Runs after zprofile has exported the secret.
+[[ ! -f "$HOME/scripts/claude_auth.zsh" ]] || source "$HOME/scripts/claude_auth.zsh"
+
 [[ ! -f "$HOME/scripts/p10k.zsh" ]] || source "$HOME/scripts/p10k.zsh"
 [[ ! -f "$HOME/scripts/zsh_functions_and_aliases.zsh" ]] || source "$HOME/scripts/zsh_functions_and_aliases.zsh"
 source <(fzf --zsh)

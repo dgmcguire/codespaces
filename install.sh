@@ -182,7 +182,11 @@ npm install -g @anthropic-ai/claude-code
 #     it as a Codespaces secret named CLAUDE_CODE_OAUTH_TOKEN.
 #   - API billing instead: set ANTHROPIC_API_KEY as a Codespaces secret.
 #     (ANTHROPIC_API_KEY takes precedence over CLAUDE_CODE_OAUTH_TOKEN if both set.)
-# Either way Claude Code starts authenticated with no login prompt.
+# Gotcha: CLAUDE_CODE_OAUTH_TOKEN only authenticates headless `claude -p` runs.
+# The interactive TUI ignores it and reads ~/.claude/.credentials.json instead,
+# so a fresh codespace would still hit the browser sign-in screen. scripts/
+# claude_auth.zsh (sourced from zshrc) seeds that credentials file from the
+# token so the interactive CLI also starts logged in with no browser prompt.
 if [ -z "$CLAUDE_CODE_OAUTH_TOKEN" ] && [ -z "$ANTHROPIC_API_KEY" ]; then
 	echo "Warning: neither CLAUDE_CODE_OAUTH_TOKEN nor ANTHROPIC_API_KEY is set —"
 	echo "         Claude Code will require an interactive login. Add one as a"

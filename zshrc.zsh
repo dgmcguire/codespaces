@@ -4,6 +4,14 @@ export ZPLUG_HOME="$HOME/.zplug"
 export NPM_GLOBAL="$HOME/.npm-global"
 export PATH="$HOME/.local/bin:$NPM_GLOBAL/bin:$PATH"
 
+# Ghostty sends TERM=xterm-ghostty over a raw SSH connection (e.g. `gh cs ssh`),
+# but this container has no terminfo entry for it, so ncurses-based color
+# detection (tput, powerlevel10k) silently falls back to an uncolored prompt.
+# VS Code's remote terminal doesn't hit this since it sets xterm-256color itself.
+case "$TERM" in
+  xterm-ghostty) export TERM=xterm-256color ;;
+esac
+
 # Claude Code on Alpine/musl: use system ripgrep instead of the bundled (glibc) one.
 export USE_BUILTIN_RIPGREP=0
 

@@ -24,7 +24,10 @@ sudo apk add --upgrade --repository=https://dl-cdn.alpinelinux.org/alpine/edge/m
 sudo apk add --upgrade --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community neovim
 sudo apk add --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing openfortivpn
 sudo apk add age
-sudo apk add tailscale
+# tailscale: dev-hub's devcontainer feature already installs the official static
+# binary to /usr/local; only apk-install as a fallback for codespaces whose repo
+# doesn't include that feature.
+command -v tailscale >/dev/null 2>&1 || sudo apk add tailscale
 
 # install lua lsp
 if [ -z "$( ls -A ~/lsp/lua )" ]; then
